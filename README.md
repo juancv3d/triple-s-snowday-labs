@@ -16,6 +16,7 @@ Landing page with full instructions: **https://juancamilo.dev/triple-s-lab/**
 
 ## Run a lab
 
+0. **Claim your Snowflake lab account** at **https://go.dataops.live/triple-s-snowday/register** and log in to Snowsight with the details you receive. All lab work happens in that account.
 1. Download the `.ipynb` file for your lab.
 2. In Snowsight, go to **Projects » Workspaces**, select **+ Add New → Upload Files**, and upload the notebook. You can also use **From Git repository** with this repo's URL.
 3. Open the notebook and connect it to a notebook service: choose the **compute pool** and the **query warehouse** your admin gave you (for example `TSS_SNOWDAY_WH`).
