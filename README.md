@@ -16,32 +16,27 @@ Landing page with full instructions: **https://juancamilo.dev/triple-s-lab/**
 
 ## Run a lab
 
-0. **Claim your Snowflake lab account** at **https://go.dataops.live/triple-s-snowday/register** and log in to Snowsight with the details you receive. All lab work happens in that account.
+Everything is self-contained in the notebook. You don't need to run any other script.
+
+0. **Claim your own Snowflake lab account** at **https://go.dataops.live/triple-s-snowday/register** and log in to Snowsight. You are `ACCOUNTADMIN` in that account.
 1. Download the `.ipynb` file for your lab.
 2. In Snowsight, go to **Projects » Workspaces**, select **+ Add New → Upload Files**, and upload the notebook. You can also use **From Git repository** with this repo's URL.
-3. Open the notebook and connect it to a notebook service: choose the **compute pool** and the **query warehouse** your admin gave you (for example `TSS_SNOWDAY_WH`).
-4. Run the first two code cells. They create your personal schema `TSS_SNOWDAY.LAB1_<USER>` or `LAB2_<USER>` and load the synthetic data.
+3. Open the notebook and connect it using the default compute pool **`SYSTEM_COMPUTE_POOL_CPU`**.
+4. Run the first two code cells:
+   - `setup_session` switches to `ACCOUNTADMIN`, creates the warehouse `TSS_SNOWDAY_WH`, enables cross-region inference for Cortex AI and creates the schema `TSS_SNOWDAY.LAB1` or `TSS_SNOWDAY.LAB2`.
+   - `load_data` / `load_bronze` loads the synthetic data.
 5. Open **Cortex Code** (icon in the lower-right corner of Snowsight). Then work through each section: paste the **Cortex Code prompt**, review what it proposes, and use the **reference cell** if you need to catch up.
-
-## Before the event (admins)
-
-Run [`00_admin_setup_snowday.sql`](00_admin_setup_snowday.sql) as `ACCOUNTADMIN`. It creates:
-
-- the lab role, warehouse, database and a compute pool sized for concurrent notebooks (each participant's notebook service uses one node)
-- the Cortex grants: `CORTEX_USER`, `CORTEX_AGENT_USER`, `COPILOT_USER` and `CORTEX-MODEL-ROLE-ALL`
-- the cross-region inference setting
-- optional grants on the CoWork object, if your account has one (`SHOW SNOWFLAKE INTELLIGENCES`)
 
 ## Known behaviors (found while testing)
 
 - **AI_REDACT does not detect the Medicare Beneficiary Identifier (MBI).** Lab 2 measures this and adds a deterministic regex safety net. That is part of the lesson.
 - **AI_REDACT failed on incremental refreshes of a Dynamic Table** in our test account, while AI_CLASSIFY, AI_FILTER and AI_EXTRACT refreshed incrementally without issues. That is why Lab 2 loads the SILVER table incrementally with an `INSERT`.
-- **`no models available for function ... under given RBAC`**: grant `SNOWFLAKE."CORTEX-MODEL-ROLE-ALL"` to the role that owns the Dynamic Tables.
-- **The agent doesn't show up in CoWork**: if the account has a CoWork object, the agent must be added to it. Lab 1, section 5.1, does this for you.
+- **`no models available for function ... under given RBAC`**: re-run the `setup_session` cell so the notebook uses `ACCOUNTADMIN` and cross-region inference.
+- **The agent doesn't show up in CoWork**: run Lab 1, section 5.1. If the account has a CoWork object, that cell adds the agent to it.
 
 ## Clean up
 
-Each notebook ends with a commented-out teardown cell that drops your schema. Admins can drop everything with the statements at the end of `00_admin_setup_snowday.sql`.
+Each notebook ends with a commented-out teardown cell that drops the lab schema (and the agent in Lab 1).
 
 ---
 Prepared by Juan Camilo Villarreal, Solutions Engineer, Snowflake.
