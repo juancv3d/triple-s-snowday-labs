@@ -26,6 +26,8 @@ Everything is self-contained in the notebook. You don't need to run any other sc
    - `setup_session` switches to `ACCOUNTADMIN`, creates the warehouse `TSS_SNOWDAY_WH`, enables cross-region inference for Cortex AI and creates the schema `TSS_SNOWDAY.LAB1` or `TSS_SNOWDAY.LAB2`.
    - `load_data` / `load_bronze` loads the synthetic data.
 5. Open **Cortex Code** (icon in the lower-right corner of Snowsight). Then work through each section: paste the **Cortex Code prompt**, review what it proposes, and use the **reference cell** if you need to catch up.
+6. Answer the **Your turn** question at the end of each section. It has no reference cell; the notebook checks your answer.
+7. Finished early? Each lab ends with an **optional advanced challenge** with its own validation cell.
 
 ## Known behaviors (found while testing)
 
